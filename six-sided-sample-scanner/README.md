@@ -10,16 +10,39 @@ The intended workflow is:
 
 1. Place the sample on a clear glass platform.
 2. Scan/enter the sample or test ID.
-3. Capture images from six directions:
-   - Front
-   - Back
-   - Left
-   - Right
-   - Top
-   - Bottom
+3. Capture images from six directions: Front, Back, Left, Right, Top, Bottom.
 4. Save the image set under the sample/test identifier.
 5. Optionally run barcode/QR detection or OCR on the images.
 6. Optionally send the resulting image set or status into a lab workflow system through an API.
+
+## Estimated Time & Labor Impact
+
+The table below gives a concrete example of the potential impact. The Python calculator remains configurable for different real-world assumptions.
+
+**Example assumptions:** 100 samples/day, 60 seconds of manual photography per sample, 15 seconds using the scanner, 250 workdays/year, **$22/hour labor**, and a $500 prototype build cost.
+
+| Metric | Estimated Result |
+|---|---:|
+| Time saved per sample | **45 seconds** |
+| Time saved per 100 samples | **75 minutes/day** |
+| Labor hours saved per year | **312.5 hours** |
+| Equivalent 8-hour workdays recovered | **39.1 days/year** |
+| Labor value saved per day | **$27.50** |
+| Labor value saved per month | **~$573** |
+| Labor value saved per year | **$6,875** |
+| Estimated prototype cost | **$500** |
+| Estimated payback period | **~18 workdays** |
+| First-year net labor savings after build cost | **$6,375** |
+
+These figures are projections rather than measured production results. Actual savings should be recalculated after timing the current manual workflow and the finished prototype.
+
+### Core calculation
+
+```text
+Time Saved = Samples × (Manual Seconds − Scanner Seconds)
+Annual Labor Value = Annual Hours Saved × Hourly Labor Cost
+Payback Period = Build Cost ÷ Daily Labor Value Saved
+```
 
 ## Proposed Physical Design
 
@@ -89,14 +112,7 @@ A useful design goal is to make each camera carriage slide closer to or farther 
 
 The primary requirement is documentation and label visibility rather than creation of a dimensionally accurate 3D mesh.
 
-A fixed multi-camera system can therefore be:
-
-- Faster
-- Less expensive
-- Easier to maintain
-- Easier to integrate with existing software
-- Better suited for barcode/OCR workflows
-- Able to capture the bottom through transparent glass
+A fixed multi-camera system can therefore be faster, less expensive, easier to maintain and integrate, better suited for barcode/OCR workflows, and able to capture the bottom through transparent glass.
 
 ## Software Direction
 
@@ -133,8 +149,6 @@ UVC-compatible cameras are preferred because they are broadly supported by macOS
 
 ## Prototype Strategy
 
-A cost-efficient development path is:
-
 1. Build the aluminum frame and lighting enclosure.
 2. Install the glass platform.
 3. Test one autofocus UVC camera at the actual working distance.
@@ -143,6 +157,6 @@ A cost-efficient development path is:
 6. Add capture software.
 7. Add OCR/barcode/API integrations only after the imaging workflow is reliable.
 
-## Time-Savings Model
+## Time-Savings Calculator
 
-See [`time_savings.py`](./time_savings.py) for a simple configurable calculator that estimates labor hours and labor cost saved by replacing manual multi-angle sample photography with a six-camera capture station.
+See [`time_savings.py`](./time_savings.py) for the configurable calculator used to model labor hours, labor value, and project payback under different assumptions.
